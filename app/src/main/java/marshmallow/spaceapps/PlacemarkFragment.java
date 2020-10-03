@@ -27,6 +27,8 @@ public class PlacemarkFragment extends BasicGlobeFragment {
 
     private static Places places;
 
+    private Actions actions;
+
     /**
      * Creates a new WorldWindow (GLSurfaceView) object with a WMS Layer
      *
@@ -46,6 +48,7 @@ public class PlacemarkFragment extends BasicGlobeFragment {
 
         contador = 0;
         places = new Places();
+        actions = new Actions();
 
         // Create a few placemarks with highlight attributes and add them to the layer
         layer.addRenderable(createAirportPlacemark(Position.fromDegrees(-23, -54, 0), "El Amazonas xd"));
@@ -144,7 +147,7 @@ public class PlacemarkFragment extends BasicGlobeFragment {
             if (topPickedObject != null) {
                 this.pickedObject = topPickedObject.getUserObject();
                 if(index > 1){
-                    Toast.makeText(getContext(), ""+places.getLocations().get(index - 2).getRegion(), Toast.LENGTH_SHORT).show();
+                    actions.openDialog(getActivity().getSupportFragmentManager(), places.getLocations().get(index - 2));
                 }
             }
         }

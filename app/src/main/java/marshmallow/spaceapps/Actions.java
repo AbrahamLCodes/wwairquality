@@ -1,5 +1,7 @@
 package marshmallow.spaceapps;
 
+import androidx.fragment.app.FragmentManager;
+
 import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.Position;
@@ -43,5 +45,10 @@ public class Actions {
         RenderableLayer tutorialLayer = new RenderableLayer();
         tutorialLayer.addRenderable(ellipse);
         wwd.getLayers().addLayer(tutorialLayer);
+    }
+
+    public void openDialog(FragmentManager fragmentManager, Location location){
+       Dialog dialog = new Dialog(location);
+       dialog.show(fragmentManager, "Info Dialog");
     }
 }
