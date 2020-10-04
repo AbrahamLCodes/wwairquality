@@ -12,13 +12,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Dialog extends AppCompatDialogFragment {
 
-    private TextView title, lat, lon, identifier, qa, btn;
-
+    private TextView title, density, monoxide, dioxide, qa, btn;
     private Location location;
+    private ImageView image;
 
     public Dialog(Location location) {
 
@@ -38,19 +39,19 @@ public class Dialog extends AppCompatDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         title = view.findViewById(R.id.txtTit);
-        lat = view.findViewById(R.id.txtLat);
-        lon = view.findViewById(R.id.txtLong);
-        identifier = view.findViewById(R.id.txtId);
+        density = view.findViewById(R.id.txtLat);
+        monoxide = view.findViewById(R.id.txtLong);
+        dioxide = view.findViewById(R.id.txtId);
         qa = view.findViewById(R.id.txtQ);
         btn = view.findViewById(R.id.txtBtn);
+        image = view.findViewById(R.id.imageView);
 
         title.setText(location.getRegion());
-
-        lat.setText("Latitud: "+location.getLatitud());
-        lon.setText("Longitud: "+location.getLongitud());
-        identifier.setText("ID: "+location.getId());
-        qa.setText("Calidad del aire: Very bad xd");
-
+        density.setText("Density: " + location.getDensity());
+        monoxide.setText("Monoxide: " + location.getMonoxide());
+        dioxide.setText("Dioxide " + location.getDioxide());
+        qa.setText("Air Quality: Bad                     \n                             ");
+        image.setImageBitmap(location.getImage());
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

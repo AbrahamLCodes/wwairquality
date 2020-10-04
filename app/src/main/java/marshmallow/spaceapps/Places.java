@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Places {
 
-    private ArrayList<Location> locations;
+    private static ArrayList<Location> locations;
 
-    public Places(){
+    public Places() {
         locations = new ArrayList<>();
     }
 
-    public ArrayList<Location> getLocations() {
+    public static ArrayList<Location> getLocations() {
         return locations;
     }
 
-    public void setLocations(ArrayList<Location> locations) {
-        this.locations = locations;
+    public static void setLocations(ArrayList<Location> locations) {
+        locations = locations;
     }
 }

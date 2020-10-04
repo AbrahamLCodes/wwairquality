@@ -1,5 +1,9 @@
 package marshmallow.spaceapps;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -20,14 +24,20 @@ import gov.nasa.worldwind.shape.PlacemarkAttributes;
 public class PlacemarkFragment extends BasicGlobeFragment {
 
     private static final double NORMAL_IMAGE_SCALE = 0.1;
-
     private static final double HIGHLIGHTED_IMAGE_SCALE = 0.2;
-
     private static int contador;
-
     private static Places places;
-
     private Actions actions;
+    private static Context context;
+    private static Bitmap bm;
+
+    public PlacemarkFragment() {
+        contador = 0;
+        places = new Places();
+        actions = new Actions();
+
+
+    }
 
     /**
      * Creates a new WorldWindow (GLSurfaceView) object with a WMS Layer
@@ -36,6 +46,8 @@ public class PlacemarkFragment extends BasicGlobeFragment {
      */
     @Override
     public WorldWindow createWorldWindow() {
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.chihuahuaimagen);
+        context = getContext();
         // Let the super class (BasicGlobeFragment) do the creation
         WorldWindow wwd = super.createWorldWindow();
 
@@ -46,17 +58,30 @@ public class PlacemarkFragment extends BasicGlobeFragment {
         RenderableLayer layer = new RenderableLayer("Placemarks");
         wwd.getLayers().addLayer(layer);
 
-        contador = 0;
-        places = new Places();
-        actions = new Actions();
+        DBManager dbManager = new DBManager(getContext());
 
-        // Create a few placemarks with highlight attributes and add them to the layer
-        layer.addRenderable(createAirportPlacemark(Position.fromDegrees(-23, -54, 0), "El Amazonas xd"));
-        layer.addRenderable(createAirportPlacemark(Position.fromDegrees(20, -101, 0), "El Defectuso"));
-        layer.addRenderable(createAirportPlacemark(Position.fromDegrees(33, -117, 0), "Los Angeles"));
+        if(dbManager.getCount() == 0){
+            //Creating and inserting placemarks into BasicGlobe and Database
+            layer.addRenderable(createPlacemark(Position.fromDegrees(20.5895,
+                    -103.2831, 0), 1000, "Guadalajara", 90, 2.28));
 
-        // Position the viewer to look near the airports
+            layer.addRenderable(createPlacemark(Position.fromDegrees(19.4978,
+                    -99.1269, 0), 1000, "Ciudad de Mexico", 120, 9.28));
 
+            layer.addRenderable(createPlacemark(Position.fromDegrees(28.6353,
+                    -106.089, 0), 1000, "Chihuhaua", 70, 120));
+
+            layer.addRenderable(createPlacemark(Position.fromDegrees(41.3879,
+                    2.16992, 0), 1000, "Barcelona", 140, 4.37));
+
+            layer.addRenderable(createPlacemark(Position.fromDegrees(38.2297,
+                    -4.9622, 0), 325, "Córdoba", 120, 0.94));
+
+            layer.addRenderable(createPlacemark(Position.fromDegrees(51.062,
+                    -1.317, 0), 75, "Winchester", 160, 3.28));
+        }else{
+            Toast.makeText(context, ""+dbManager.getCount(), Toast.LENGTH_SHORT).show();
+        }
 
         return wwd;
     }
@@ -64,15 +89,24 @@ public class PlacemarkFragment extends BasicGlobeFragment {
     /**
      * Helper method to create airport placemarks.
      */
-    private static Placemark createAirportPlacemark(Position position, String region) {
+    private static Placemark createPlacemark(Position position, double density, String region, double monoxide, double dioxide) {
 
         Placemark placemark = Placemark.createWithImage(position, ImageSource.fromResource(R.drawable.contamination));
         placemark.getAttributes().setImageOffset(Offset.bottomCenter()).setImageScale(NORMAL_IMAGE_SCALE);
         placemark.setHighlightAttributes(new PlacemarkAttributes(placemark.getAttributes()).setImageScale(HIGHLIGHTED_IMAGE_SCALE));
         placemark.setDisplayName(region);
 
-        places.getLocations().add(contador, new Location(contador, region, (int) position.latitude,
-                (int)position.longitude));
+        DBManager dbManager = new DBManager(context);
+        Log.d("Column count", "AAAAAAAAAAAAAAAAAAA"+dbManager.getColumnCount());
+
+
+
+
+        dbManager.insert(contador, position.latitude, position.longitude, region, density, monoxide, dioxide
+        , bm);
+        dbManager.initList();
+
+
 
         contador++;
 
@@ -146,8 +180,8 @@ public class PlacemarkFragment extends BasicGlobeFragment {
 
             if (topPickedObject != null) {
                 this.pickedObject = topPickedObject.getUserObject();
-                if(index > 1){
-                    actions.openDialog(getActivity().getSupportFragmentManager(), places.getLocations().get(index - 2));
+                if (index > 1) {
+                    actions.openDialog(getActivity().getSupportFragmentManager(), Places.getLocations().get(index - 2));
                 }
             }
         }
