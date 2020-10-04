@@ -52,7 +52,7 @@ public class Dialog extends AppCompatDialogFragment {
         dioxide.setText("Dioxide " + location.getDioxide());
         qa.setText("Air Quality: Bad                     \n                             ");
         image.setImageBitmap(location.getImage());
-        image.setImageResource(R.drawable.chihuahuaimagen);
+        selectImageTest();
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +61,38 @@ public class Dialog extends AppCompatDialogFragment {
             }
         });
 
+    }
+
+    public void selectImageTest(){
+        switch (location.getRegion()){
+            case "Guadalajara":
+                image.setImageResource(R.drawable.guadalajara);
+                break;
+            case "Ciudad de Mexico":
+                image.setImageResource(R.drawable.cdmx);
+                break;
+            case "Chihuhaua":
+                image.setImageResource(R.drawable.chihuahua);
+                break;
+            case "Barcelona":
+                image.setImageResource(R.drawable.barcelona);
+                break;
+            case "Córdoba":
+                image.setImageResource(R.drawable.cordoba);
+                break;
+            case "Winchester":
+                image.setImageResource(R.drawable.winchester);
+                break;
+            case "LA":
+                image.setImageResource(R.drawable.la);
+                break;
+            case "Trinidad":
+                image.setImageResource(R.drawable.trinidad);
+                break;
+            case "Santa Maria":
+                image.setImageResource(R.drawable.santamaria);
+                break;
+        }
     }
 
     @NonNull

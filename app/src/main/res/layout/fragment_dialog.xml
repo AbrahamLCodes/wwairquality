@@ -83,7 +83,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/chihuahuaimagen"
+                android:src="@drawable/chihuahua"
                 android:layout_gravity="center"/>
 
 

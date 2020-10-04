@@ -18,4 +18,16 @@ public class Actions {
         Dialog dialog = new Dialog(location);
         dialog.show(fragmentManager, "Info Dialog");
     }
+
+    public int getLocationByName(String name){
+        int i = 0;
+        while (i < Places.getLocations().size()){
+            if(Places.getLocations().get(i).getRegion().equals(name)){
+                break;
+            }else{
+                i++;
+            }
+        }
+        return i;
+    }
 }

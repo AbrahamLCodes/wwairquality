@@ -3,10 +3,17 @@ package marshmallow.spaceapps;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import gov.nasa.worldwind.BasicWorldWindowController;
 import gov.nasa.worldwind.PickedObject;
@@ -30,13 +37,27 @@ public class PlacemarkFragment extends BasicGlobeFragment {
     private Actions actions;
     private static Context context;
     private static Bitmap bm;
+    private FloatingActionButton fb;
+
+    
 
     public PlacemarkFragment() {
         contador = 0;
         places = new Places();
         actions = new Actions();
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        fb = view.findViewById(R.id.fab);
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "FB xd", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -46,7 +67,7 @@ public class PlacemarkFragment extends BasicGlobeFragment {
      */
     @Override
     public WorldWindow createWorldWindow() {
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.chihuahuaimagen);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.chihuahua);
         context = getContext();
         // Let the super class (BasicGlobeFragment) do the creation
         WorldWindow wwd = super.createWorldWindow();
@@ -54,33 +75,109 @@ public class PlacemarkFragment extends BasicGlobeFragment {
         // Override the WorldWindow's built-in navigation behavior by adding picking support.
         wwd.setWorldWindowController(new PickNavigateController());
 
+
         // Add a layer for placemarks to the WorldWindow
         RenderableLayer layer = new RenderableLayer("Placemarks");
-        wwd.getLayers().addLayer(layer);
+
+
 
         DBManager dbManager = new DBManager(getContext());
 
         if(dbManager.getCount() == 0){
             //Creating and inserting placemarks into BasicGlobe and Database
-            layer.addRenderable(createPlacemark(Position.fromDegrees(20.5895,
-                    -103.2831, 0), 1000, "Guadalajara", 90, 2.28));
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            20.5895
+                            , -103.2831
+                            , 0)
+                    , 1000
+                    , "Guadalajara"
+                    , 90
+                    , 2.28));
 
-            layer.addRenderable(createPlacemark(Position.fromDegrees(19.4978,
-                    -99.1269, 0), 1000, "Ciudad de Mexico", 120, 9.28));
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            19.4978
+                            , -99.1269
+                            , 0)
+                    , 1000
+                    , "Ciudad de Mexico"
+                    , 120
+                    , 9.28));
 
-            layer.addRenderable(createPlacemark(Position.fromDegrees(28.6353,
-                    -106.089, 0), 1000, "Chihuhaua", 70, 120));
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            28.6353
+                            , -106.089
+                            , 0)
+                    , 1000
+                    , "Chihuhaua"
+                    , 70
+                    , 120));
 
-            layer.addRenderable(createPlacemark(Position.fromDegrees(41.3879,
-                    2.16992, 0), 1000, "Barcelona", 140, 4.37));
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            41.3879
+                            , 2.16992
+                            , 0)
+                    , 1000
+                    , "Barcelona"
+                    , 140
+                    , 4.37));
 
-            layer.addRenderable(createPlacemark(Position.fromDegrees(38.2297,
-                    -4.9622, 0), 325, "Córdoba", 120, 0.94));
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(38.2297
+                            , -4.9622
+                            , 0)
+                    , 325
+                    , "Córdoba"
+                    , 120
+                    , 0.94));
 
-            layer.addRenderable(createPlacemark(Position.fromDegrees(51.062,
-                    -1.317, 0), 75, "Winchester", 160, 3.28));
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            51.062
+                            , -1.317
+                            , 0)
+                    , 75,
+                    "Winchester"
+                    , 160
+                    , 3.28));
+
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            34.0194
+                            , -118.441
+                            , 0),
+                    1000
+                    , "LA"
+                    , 260
+                    , 9.28));
+
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            37.10
+                            , -104.300
+                            , 0),
+                    925
+                    , "Trinidad"
+                    , 120
+                    , 45));
+
+            layer.addRenderable(createPlacemark(
+                    Position.fromDegrees(
+                            33.59
+                            , -118.40
+                            , 0),
+                    925
+                    , "Santa Maria"
+                    , 200
+                    , 0.94));
+
+
             dbManager.initList();
         }else{
+
             dbManager.initList();
             int i = 0;
             while (i < Places.getLocations().size()){
@@ -93,6 +190,7 @@ public class PlacemarkFragment extends BasicGlobeFragment {
             }
         }
 
+        wwd.getLayers().addLayer(layer);
         return wwd;
     }
 
@@ -108,6 +206,7 @@ public class PlacemarkFragment extends BasicGlobeFragment {
 
         DBManager dbManager = new DBManager(context);
         Log.d("Column count", "     "+dbManager.getColumnCount());
+
 
 
         dbManager.insert(contador
@@ -201,17 +300,28 @@ public class PlacemarkFragment extends BasicGlobeFragment {
             // Get the top-most object for our new picked object
             PickedObject topPickedObject = pickList.topPickedObject();
 
-            //Get the picked object id to compare it
-            int index = topPickedObject.getIdentifier();
+
+            /**
+             Message from Abraham Luna (Team's Android Developer for NASA Space Apps Challenge 2020).
+
+             This part has a bug that i couldn't fix. It works but sometimes doesen't show the Placemark i want.
+             I needed more time to study and modify the List sort algorithm used for this handle the picking
+             and toggling. :(
+
+             At least the idea is kinda showed.
+             */
 
             if (topPickedObject != null) {
                 this.pickedObject = topPickedObject.getUserObject();
+
+                int index = topPickedObject.getIdentifier();
                 if (index > 1) {
-                    Toast.makeText(getContext(), "Index: "+index, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Name: "+Places.getLocations().get(index-2).getRegion(), Toast.LENGTH_SHORT).show();
                     actions.openDialog(getActivity().getSupportFragmentManager(), Places.getLocations().get(index - 2));
                 }
             }
         }
+
 
         /**
          * Toggles the selected state of a picked object.
