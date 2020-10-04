@@ -52,6 +52,7 @@ public class Dialog extends AppCompatDialogFragment {
         dioxide.setText("Dioxide " + location.getDioxide());
         qa.setText("Air Quality: Bad                     \n                             ");
         image.setImageBitmap(location.getImage());
+        image.setImageResource(R.drawable.chihuahuaimagen);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

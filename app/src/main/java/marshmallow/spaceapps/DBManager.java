@@ -46,7 +46,7 @@ public class DBManager extends SQLiteOpenHelper {
             byte[] data = getBitmapAsByteArray(img);
 
              bd.execSQL("INSERT INTO PLACEMARKS VALUES ('" + id + "','" + lat + "','" + lon + "'" +
-                     ", '"+ region + "', '" + density+ "', '"+ monc +"', '"+ dion +"', '"+ img +"')");
+                     ", '"+ region + "', '" + density+ "', '"+ monc +"', '"+ dion +"', '"+ data +"')");
 
              bd.close();
         }
@@ -84,9 +84,16 @@ public class DBManager extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 //int, double, double, String, double, double, double, Bitmap
-                Places.getLocations().add(new Location(cursor.getInt(0), cursor.getDouble(1), cursor.getDouble(2)
-                , cursor.getString(3), cursor.getDouble(4), cursor.getDouble(5)
-                , cursor.getDouble(6), getImage(cursor.getInt(0))));
+                Places.getLocations().add
+                        (new Location(
+                                cursor.getInt(0)
+                                , cursor.getDouble(1)
+                                , cursor.getDouble(2)
+                                , cursor.getString(3)
+                                , cursor.getDouble(4)
+                                , cursor.getDouble(5)
+                                , cursor.getDouble(6)
+                                , getImage(cursor.getInt(0))));
             } while (cursor.moveToNext());
         }
     }

@@ -79,8 +79,18 @@ public class PlacemarkFragment extends BasicGlobeFragment {
 
             layer.addRenderable(createPlacemark(Position.fromDegrees(51.062,
                     -1.317, 0), 75, "Winchester", 160, 3.28));
+            dbManager.initList();
         }else{
-            Toast.makeText(context, ""+dbManager.getCount(), Toast.LENGTH_SHORT).show();
+            dbManager.initList();
+            int i = 0;
+            while (i < Places.getLocations().size()){
+                layer.addRenderable(returnPlacemark(new Position(
+                        Places.getLocations().get(i).getLatitud()
+                        ,Places.getLocations().get(i).getLongitud()
+                        , 0)
+                        , Places.getLocations().get(i).getRegion()));
+                i++;
+            }
         }
 
         return wwd;
@@ -97,21 +107,35 @@ public class PlacemarkFragment extends BasicGlobeFragment {
         placemark.setDisplayName(region);
 
         DBManager dbManager = new DBManager(context);
-        Log.d("Column count", "AAAAAAAAAAAAAAAAAAA"+dbManager.getColumnCount());
+        Log.d("Column count", "     "+dbManager.getColumnCount());
 
 
-
-
-        dbManager.insert(contador, position.latitude, position.longitude, region, density, monoxide, dioxide
-        , bm);
-        dbManager.initList();
-
-
+        dbManager.insert(contador
+                , position.latitude
+                , position.longitude
+                , region
+                , density
+                , monoxide
+                , dioxide
+                , bm);
 
         contador++;
 
         return placemark;
     }
+
+    private static Placemark returnPlacemark(Position position, String region) {
+
+
+        Placemark placemark = Placemark.createWithImage(position, ImageSource.fromResource(R.drawable.contamination));
+        placemark.getAttributes().setImageOffset(Offset.bottomCenter()).setImageScale(NORMAL_IMAGE_SCALE);
+        placemark.setHighlightAttributes(new PlacemarkAttributes(placemark.getAttributes()).setImageScale(HIGHLIGHTED_IMAGE_SCALE));
+        placemark.setDisplayName(region);
+
+
+        return placemark;
+    }
+
 
     /**
      * This inner class is a custom WorldWindController that handles both picking and navigation via a combination of
@@ -176,11 +200,14 @@ public class PlacemarkFragment extends BasicGlobeFragment {
 
             // Get the top-most object for our new picked object
             PickedObject topPickedObject = pickList.topPickedObject();
+
+            //Get the picked object id to compare it
             int index = topPickedObject.getIdentifier();
 
             if (topPickedObject != null) {
                 this.pickedObject = topPickedObject.getUserObject();
                 if (index > 1) {
+                    Toast.makeText(getContext(), "Index: "+index, Toast.LENGTH_SHORT).show();
                     actions.openDialog(getActivity().getSupportFragmentManager(), Places.getLocations().get(index - 2));
                 }
             }
