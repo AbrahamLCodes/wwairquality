@@ -22,7 +22,7 @@ public class HelpFragment extends Fragment {
     private Actions actions;
 
 
-    private String [] items = {"Choose this challenge", "Are participating", "Used: Population density, carbon monoxide & nitrogen dioxide", "how % is this project completed?", "Who do we want to help?"};
+    private String[] items = {"Choose this challenge", "Are participating", "Used: Population density, carbon monoxide & nitrogen dioxide", "how % is this project completed?", "Who do we want to help?"};
 
 
     @Override
@@ -40,16 +40,17 @@ public class HelpFragment extends Fragment {
         list = view.findViewById(R.id.list);
         text = view.findViewById(R.id.goBack);
 
-        list.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, items));;
+        list.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, items));
+        ;
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i ){
+                switch (i) {
                     case 0:
                         actions.openItemDialog(getFragmentManager()
                                 , items[i], "We thought this category" +
-                                " was the best for us. So we wanted to help people with something we like, in this case, maps.");
+                                        " was the best for us. So we wanted to help people with something we like, in this case, maps.");
                         break;
                     case 1:
                         actions.openItemDialog(getFragmentManager()
@@ -70,14 +71,14 @@ public class HelpFragment extends Fragment {
                     case 3:
                         actions.openItemDialog(getFragmentManager()
                                 , items[i], "We calculate that his App is at 40% of the total development. " +
-                                "If we get more time we can make a real and useful project. But for " +
+                                        "If we get more time we can make a real and useful project. But for " +
                                         "this moment we only made a prototype with an high scalable coding structure.");
                         break;
                     case 4:
                         actions.openItemDialog(getFragmentManager()
                                 , items[i]
                                 , "We want the NASA Data to be aviable for everyone, they who are not scientists. " +
-                                " By making a friendly NASA Data Visualizing tool that even a child can use.");
+                                        " By making a friendly NASA Data Visualizing tool that even a child can use.");
                         break;
                 }
             }
@@ -87,8 +88,8 @@ public class HelpFragment extends Fragment {
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft =getActivity().getSupportFragmentManager().beginTransaction();
-                PlacemarkFragment bs  = new PlacemarkFragment();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                PlacemarkFragment bs = new PlacemarkFragment();
                 ft.replace(R.id.mainFrame, bs);
                 ft.commit();
             }

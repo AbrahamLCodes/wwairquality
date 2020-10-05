@@ -22,6 +22,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     //private static final String create = "CREATE TABLE PLACEMARKS(ID INTEGER PRIMARY KEY, LAT REAL, LON REAL, REGION TEXT, DENSITY REAL, MONC REAL, DION REAL, IMAGE BLOB)";
     private static final String create = "CREATE TABLE PLACEMARKS(ID INTEGER PRIMARY KEY, LAT REAL, LON REAL, REGION TEXT, DENSITY REAL, MONC REAL, DION REAL, IMAGE BLOB)";
+
     public DBManager(@Nullable Context context) {
         super(context, nombre, null, version);
     }
@@ -37,18 +38,18 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(create);
     }
 
-    public void  insert(int id, double lat, double lon, String region, double density,
-                        double monc, double dion, Bitmap img) {
+    public void insert(int id, double lat, double lon, String region, double density,
+                       double monc, double dion, Bitmap img) {
 
         SQLiteDatabase bd = getWritableDatabase();
         if (bd != null) {
 
             byte[] data = getBitmapAsByteArray(img);
 
-             bd.execSQL("INSERT INTO PLACEMARKS VALUES ('" + id + "','" + lat + "','" + lon + "'" +
-                     ", '"+ region + "', '" + density+ "', '"+ monc +"', '"+ dion +"', '"+ data +"')");
+            bd.execSQL("INSERT INTO PLACEMARKS VALUES ('" + id + "','" + lat + "','" + lon + "'" +
+                    ", '" + region + "', '" + density + "', '" + monc + "', '" + dion + "', '" + data + "')");
 
-             bd.close();
+            bd.close();
         }
     }
 
@@ -59,14 +60,14 @@ public class DBManager extends SQLiteOpenHelper {
         return count;
     }
 
-    public long getColumnCount(){
+    public long getColumnCount() {
         SQLiteDatabase bd = getReadableDatabase();
         Cursor cursor = bd.rawQuery("SELECT * FROM PLACEMARKS", null);
-        for (int i = 0 ; i < 7 ; i ++){
+        for (int i = 0; i < 7; i++) {
             Log.d("AAAAAAA", cursor.getColumnName(i));
         }
         long count = cursor.getColumnCount();
-        return  count;
+        return count;
     }
 
 
@@ -99,14 +100,14 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
-    public Bitmap getImage(int i){
+    public Bitmap getImage(int i) {
 
         SQLiteDatabase bd = getReadableDatabase();
 
-        String query = "SELECT IMAGE FROM PLACEMARKS WHERE ID = " + i ;
+        String query = "SELECT IMAGE FROM PLACEMARKS WHERE ID = " + i;
         Cursor cursor = bd.rawQuery(query, null);
 
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             byte[] imgByte = cursor.getBlob(0);
             cursor.close();
             return BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length);

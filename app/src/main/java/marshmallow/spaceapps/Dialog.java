@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,9 +46,14 @@ public class Dialog extends AppCompatDialogFragment {
         image = view.findViewById(R.id.imageView);
 
         title.setText(location.getRegion());
-        density.setText("Density: " + location.getDensity());
-        monoxide.setText("Monoxide: " + location.getMonoxide());
-        dioxide.setText("Dioxide " + location.getDioxide());
+        if (location.getDensity() < 1000) {
+            density.setText("Density: " + location.getDensity() + "/Km2");
+        } else {
+            density.setText("Density: +" + location.getDensity() + "/Km2");
+        }
+
+        monoxide.setText("Monoxide: " + location.getMonoxide() + "ppvp");
+        dioxide.setText("Dioxide " + location.getDioxide() + "ppb");
         qa.setText("Air Quality: Bad                     \n                             ");
         image.setImageBitmap(location.getImage());
         selectImageTest();
@@ -63,8 +67,8 @@ public class Dialog extends AppCompatDialogFragment {
 
     }
 
-    public void selectImageTest(){
-        switch (location.getRegion()){
+    public void selectImageTest() {
+        switch (location.getRegion()) {
             case "Guadalajara":
                 image.setImageResource(R.drawable.guadalajara);
                 break;
@@ -99,9 +103,5 @@ public class Dialog extends AppCompatDialogFragment {
     @Override
     public android.app.Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         return super.onCreateDialog(savedInstanceState);
-
-
     }
-
-
 }

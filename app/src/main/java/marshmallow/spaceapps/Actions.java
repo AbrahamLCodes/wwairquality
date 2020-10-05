@@ -19,7 +19,7 @@ public class Actions {
         dialog.show(fragmentManager, "Info Dialog");
     }
 
-    public void openItemDialog(FragmentManager fragmentManager, String q, String a){
+    public void openItemDialog(FragmentManager fragmentManager, String q, String a) {
         ItemFragment dialog = new ItemFragment(q, a);
         dialog.show(fragmentManager, "Info Dialog");
     }

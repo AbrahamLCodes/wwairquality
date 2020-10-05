@@ -19,7 +19,7 @@ public class ItemFragment extends AppCompatDialogFragment {
     private String question, answer;
     private TextView ques, ans, gotit;
 
-    public ItemFragment(String question, String answer){
+    public ItemFragment(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
@@ -40,7 +40,8 @@ public class ItemFragment extends AppCompatDialogFragment {
         ans = view.findViewById(R.id.itemAns);
         gotit = view.findViewById(R.id.itemGoBack);
 
-        ques.setText(question);;
+        ques.setText(question);
+        ;
         ans.setText(answer);
 
         gotit.setOnClickListener(new View.OnClickListener() {

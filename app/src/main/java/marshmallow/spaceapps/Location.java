@@ -25,7 +25,7 @@ public class Location {
     //int id, double lat, double lon, String region, double density,
     //double monc, double dion, Bitmap img
 
-    public Location(int id, double latitud, double longitud, String region ,double density,
+    public Location(int id, double latitud, double longitud, String region, double density,
                     double monoxide, double dioxide, Bitmap image) {
         this.id = id;
         this.region = region;

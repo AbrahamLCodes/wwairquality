@@ -15,15 +15,15 @@ public class MainActivity extends AppCompatActivity {
         showGlobe();
     }
 
-    public void showGlobe(){
+    public void showGlobe() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        PlacemarkFragment bs  = new PlacemarkFragment();
+        PlacemarkFragment bs = new PlacemarkFragment();
         ft.replace(R.id.mainFrame, bs);
         ft.commit();
     }
 
-    public void showHelp(){
-        FragmentTransaction ft  = getSupportFragmentManager().beginTransaction();
+    public void showHelp() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         HelpFragment fg = new HelpFragment();
         ft.replace(R.id.mainFrame, fg);
         ft.commit();
