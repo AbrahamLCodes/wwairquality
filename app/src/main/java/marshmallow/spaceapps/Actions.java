@@ -19,15 +19,9 @@ public class Actions {
         dialog.show(fragmentManager, "Info Dialog");
     }
 
-    public int getLocationByName(String name){
-        int i = 0;
-        while (i < Places.getLocations().size()){
-            if(Places.getLocations().get(i).getRegion().equals(name)){
-                break;
-            }else{
-                i++;
-            }
-        }
-        return i;
+    public void openItemDialog(FragmentManager fragmentManager, String q, String a){
+        ItemFragment dialog = new ItemFragment(q, a);
+        dialog.show(fragmentManager, "Info Dialog");
     }
+
 }

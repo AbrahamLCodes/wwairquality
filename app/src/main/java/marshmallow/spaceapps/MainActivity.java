@@ -21,4 +21,11 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.mainFrame, bs);
         ft.commit();
     }
+
+    public void showHelp(){
+        FragmentTransaction ft  = getSupportFragmentManager().beginTransaction();
+        HelpFragment fg = new HelpFragment();
+        ft.replace(R.id.mainFrame, fg);
+        ft.commit();
+    }
 }

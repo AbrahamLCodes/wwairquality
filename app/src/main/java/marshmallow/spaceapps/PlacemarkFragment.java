@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -39,7 +40,6 @@ public class PlacemarkFragment extends BasicGlobeFragment {
     private static Bitmap bm;
     private FloatingActionButton fb;
 
-    
 
     public PlacemarkFragment() {
         contador = 0;
@@ -55,7 +55,12 @@ public class PlacemarkFragment extends BasicGlobeFragment {
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "FB xd", Toast.LENGTH_SHORT).show();
+
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                HelpFragment fg = new HelpFragment();
+                ft.replace(R.id.mainFrame, fg);
+                ft.commit();
+
             }
         });
     }
@@ -80,10 +85,9 @@ public class PlacemarkFragment extends BasicGlobeFragment {
         RenderableLayer layer = new RenderableLayer("Placemarks");
 
 
-
         DBManager dbManager = new DBManager(getContext());
 
-        if(dbManager.getCount() == 0){
+        if (dbManager.getCount() == 0) {
             //Creating and inserting placemarks into BasicGlobe and Database
             layer.addRenderable(createPlacemark(
                     Position.fromDegrees(
@@ -176,15 +180,15 @@ public class PlacemarkFragment extends BasicGlobeFragment {
 
 
             dbManager.initList();
-        }else{
+        } else {
 
             dbManager.initList();
             int i = 0;
-            while (i < Places.getLocations().size()){
+            while (i < Places.getLocations().size()) {
                 layer.addRenderable(returnPlacemark(new Position(
-                        Places.getLocations().get(i).getLatitud()
-                        ,Places.getLocations().get(i).getLongitud()
-                        , 0)
+                                Places.getLocations().get(i).getLatitud()
+                                , Places.getLocations().get(i).getLongitud()
+                                , 0)
                         , Places.getLocations().get(i).getRegion()));
                 i++;
             }
@@ -205,8 +209,7 @@ public class PlacemarkFragment extends BasicGlobeFragment {
         placemark.setDisplayName(region);
 
         DBManager dbManager = new DBManager(context);
-        Log.d("Column count", "     "+dbManager.getColumnCount());
-
+        Log.d("Column count", "     " + dbManager.getColumnCount());
 
 
         dbManager.insert(contador
