@@ -105,7 +105,7 @@ public class PlacemarkFragment extends BasicGlobeFragment {
                             , -99.1269
                             , 0)
                     , 1000
-                    , "Ciudad de Mexico"
+                    , "CDMX"
                     , 120
                     , 9.28));
 
