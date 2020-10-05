@@ -72,7 +72,7 @@ public class Dialog extends AppCompatDialogFragment {
             case "Guadalajara":
                 image.setImageResource(R.drawable.guadalajara);
                 break;
-            case "Ciudad de Mexico":
+            case "CDMX":
                 image.setImageResource(R.drawable.cdmx);
                 break;
             case "Chihuhaua":
